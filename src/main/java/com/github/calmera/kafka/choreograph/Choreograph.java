@@ -19,20 +19,22 @@ package com.github.calmera.kafka.choreograph;
 import com.github.calmera.kafka.choreograph.events.CreateRoutineRequested;
 import com.github.calmera.kafka.choreograph.events.Event;
 import com.github.calmera.kafka.choreograph.processors.CreateRoutineProcessor;
+import com.github.calmera.kafka.choreograph.rest.Api;
+import com.github.calmera.kafka.choreograph.rest.routines.RoutineResource;
+import com.github.calmera.kafka.choreograph.rest.routines.RoutinesResource;
 import com.github.calmera.kafka.choreograph.serdes.CustomSerdes;
 import com.github.calmera.kafka.choreograph.state.Routine;
 import org.apache.kafka.common.serialization.Serdes;
-import org.apache.kafka.common.utils.Bytes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.*;
-import org.apache.kafka.streams.state.KeyValueStore;
 import org.apache.kafka.streams.state.Stores;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 
@@ -96,6 +98,10 @@ public class Choreograph {
 
         final KafkaStreams streams = new KafkaStreams(topology, this.properties);
         final CountDownLatch latch = new CountDownLatch(1);
+        final Api api = new Api(List.of(
+                new RoutinesResource(),
+                new RoutineResource()
+        ));
 
         // attach shutdown handler to catch control-c
         Runtime.getRuntime().addShutdownHook(new Thread("streams-shutdown-hook") {
@@ -107,6 +113,8 @@ public class Choreograph {
         });
 
         streams.start();
+        api.startListening(streams);
+
         latch.await();
     }
 
