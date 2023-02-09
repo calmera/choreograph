@@ -1,7 +1,5 @@
 package com.github.calmera.kafka.choreograph.events;
 
-import com.cronutils.model.definition.CronDefinition;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +9,8 @@ public class CreateRoutineRequested implements Event {
     private String cronExpression;
 
     private String topic;
+
+    private String key;
 
     private String payload;
 
@@ -32,6 +32,10 @@ public class CreateRoutineRequested implements Event {
         return topic;
     }
 
+    public String getKey() {
+        return key;
+    }
+
     public String getPayload() {
         return payload;
     }
@@ -43,6 +47,8 @@ public class CreateRoutineRequested implements Event {
     public static class Builder {
         private String label;
         private String cronExpression;
+
+        private String key;
         private String topic;
         private String payload;
         private Map<String, String> headers;
@@ -59,6 +65,11 @@ public class CreateRoutineRequested implements Event {
 
         public Builder withTopic(String topic) {
             this.topic = topic;
+            return this;
+        }
+
+        public Builder withKey(String key) {
+            this.key = key;
             return this;
         }
 
@@ -86,6 +97,7 @@ public class CreateRoutineRequested implements Event {
             createRoutineRequested.label = this.label;
             createRoutineRequested.cronExpression = this.cronExpression;
             createRoutineRequested.topic = this.topic;
+            createRoutineRequested.key = this.key;
             createRoutineRequested.payload = this.payload;
             createRoutineRequested.headers = this.headers;
             return createRoutineRequested;

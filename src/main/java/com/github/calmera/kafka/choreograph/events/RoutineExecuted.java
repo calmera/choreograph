@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Map;
 
-public class RoutineCreated implements Event {
+public class RoutineExecuted implements Event {
     private final String id;
     private final String label;
     private final String cronExpression;
@@ -19,12 +19,13 @@ public class RoutineCreated implements Event {
     private final Map<String, String> headers;
 
     @JsonCreator
-    public RoutineCreated(@JsonProperty("id") String id,
-                          @JsonProperty("label") String label,
-                          @JsonProperty("cronExpression") String cronExpression,
-                          @JsonProperty("topic") String topic,
-                          String key, @JsonProperty("payload") String payload,
-                          @JsonProperty("headers") Map<String, String> headers) {
+    public RoutineExecuted(@JsonProperty("id") String id,
+                           @JsonProperty("label") String label,
+                           @JsonProperty("cronExpression") String cronExpression,
+                           @JsonProperty("topic") String topic,
+                           @JsonProperty("key") String key,
+                           @JsonProperty("payload") String payload,
+                           @JsonProperty("headers") Map<String, String> headers) {
         this.id = id;
         this.label = label;
         this.cronExpression = cronExpression;
@@ -50,15 +51,15 @@ public class RoutineCreated implements Event {
         return topic;
     }
 
-    public String getKey() {
-        return key;
-    }
-
     public String getPayload() {
         return payload;
     }
 
     public Map<String, String> getHeaders() {
         return headers;
+    }
+
+    public String getKey() {
+        return key;
     }
 }

@@ -1,7 +1,9 @@
 package com.github.calmera.kafka.choreograph.state;
 
 import com.cronutils.model.Cron;
+import com.cronutils.model.time.ExecutionTime;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -19,6 +21,8 @@ public class Routine {
     private Cron cron;
 
     private String topic;
+
+    private String key;
 
     private String payload;
 
@@ -75,5 +79,13 @@ public class Routine {
 
     public void setHeaders(Map<String, String> headers) {
         this.headers = headers;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

@@ -62,7 +62,7 @@ public class CreateRoutineProcessor extends AbstractEventProcessor<CreateRoutine
 
         routineStore.put(id, routine);
 
-        forward(record.key(), new RoutineCreated(routine.getId(), routine.getLabel(), routine.getCron().asString(), routine.getTopic(), routine.getPayload(), routine.getHeaders()));
+        forward(record.key(), new RoutineCreated(routine.getId(), routine.getLabel(), routine.getCron().asString(), routine.getTopic(), key, routine.getPayload(), routine.getHeaders()));
     }
 
     private void forward(String key, Event value) {
